@@ -1,0 +1,32 @@
+{
+  "name": "@nodestrap/stripouts",
+  "version": "4.0.0",
+  "description": "Removes browser's default stylesheet.",
+  "main": "dist/stripouts.js",
+  "types": "dist/stripouts.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nodestrap/stripouts.git"
+  },
+  "keywords": [
+    "clear",
+    "remove",
+    "reset",
+    "browser",
+    "default",
+    "css",
+    "stylesheet"
+  ],
+  "author": "heymarco",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nodestrap/stripouts/issues"
+  },
+  "homepage": "https://github.com/nodestrap/stripouts#readme",
+  "dependencies": {
+    "@cssfn/cssfn": "^1.0.2"
+  }
+}
