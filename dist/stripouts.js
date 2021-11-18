@@ -1,38 +1,40 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.stripoutImage = exports.stripoutScrollbar = exports.stripoutFocusableElement = exports.stripoutFigure = exports.stripoutList = exports.stripoutRange = exports.rangeThumbElm = exports.rangeTrackElm = exports.stripoutTextbox = exports.stripoutControl = exports.stripoutLink = void 0;
-const cssfn_1 = require("@cssfn/cssfn"); // cssfn core
+import { 
+// compositions:
+composition, imports, 
+// layouts:
+layout, children, 
+// rules:
+variants, rule, isActive, isFocus, isFocusVisible, } from '@cssfn/cssfn'; // cssfn core
 const unset = 'unset';
 const none = 'none';
 /**
  * removes browser's default styling on hyperlink (`a`).
  */
-const stripoutLink = () => (0, cssfn_1.composition)([
-    (0, cssfn_1.imports)([
-        (0, exports.stripoutFocusableElement)(),
+export const stripoutLink = () => composition([
+    imports([
+        stripoutFocusableElement(),
     ]),
-    (0, cssfn_1.layout)({
+    layout({
         color: unset,
         textDecoration: unset,
         cursor: unset, // reset hand pointer
     }),
-    (0, cssfn_1.variants)([
-        (0, cssfn_1.isActive)([
-            (0, cssfn_1.layout)({
+    variants([
+        isActive([
+            layout({
                 color: unset, // reset blue color
             }),
         ]),
     ]),
 ]);
-exports.stripoutLink = stripoutLink;
 /**
  * removes browser's default styling on control (`input`, `textarea`, `button`, etc).
  */
-const stripoutControl = () => (0, cssfn_1.composition)([
-    (0, cssfn_1.imports)([
-        (0, exports.stripoutFocusableElement)(),
+export const stripoutControl = () => composition([
+    imports([
+        stripoutFocusableElement(),
     ]),
-    (0, cssfn_1.layout)({
+    layout({
         appearance: none,
         textRendering: unset,
         color: unset,
@@ -52,58 +54,55 @@ const stripoutControl = () => (0, cssfn_1.composition)([
         boxSizing: unset,
     }),
 ]);
-exports.stripoutControl = stripoutControl;
 /**
  * removes browser's default styling on `input[type=**text**]`.
  * `**text**` = `text`|`search`|`password`|`email`|`tel`|`url`|`number`|`time`|`week`|`date`|`datetime-local`|`month`
  */
-const stripoutTextbox = () => (0, cssfn_1.composition)([
-    (0, cssfn_1.imports)([
-        (0, exports.stripoutControl)(),
+export const stripoutTextbox = () => composition([
+    imports([
+        stripoutControl(),
     ]),
-    (0, cssfn_1.layout)({
+    layout({
         '-moz-appearance': 'textfield',
         // children:
-        ...(0, cssfn_1.children)(['::-webkit-calendar-picker-indicator', '::-webkit-inner-spin-button', '::-webkit-search-cancel-button'], [
-            (0, cssfn_1.layout)({
+        ...children(['::-webkit-calendar-picker-indicator', '::-webkit-inner-spin-button', '::-webkit-search-cancel-button'], [
+            layout({
                 appearance: none,
                 display: none,
             }),
         ]),
     }),
-    (0, cssfn_1.variants)([
-        (0, cssfn_1.rule)([':valid', ':invalid'], [
-            (0, cssfn_1.layout)({
+    variants([
+        rule([':valid', ':invalid'], [
+            layout({
                 boxShadow: unset,
             }),
         ]),
     ]),
 ]);
-exports.stripoutTextbox = stripoutTextbox;
-exports.rangeTrackElm = ['::-webkit-slider-runnable-track', '::-moz-range-track', '::-ms-track'];
-exports.rangeThumbElm = ['::-webkit-slider-thumb', '::-moz-range-thumb', '::-ms-thumb'];
+export const rangeTrackElm = ['::-webkit-slider-runnable-track', '::-moz-range-track', '::-ms-track'];
+export const rangeThumbElm = ['::-webkit-slider-thumb', '::-moz-range-thumb', '::-ms-thumb'];
 /**
  * removes browser's default styling on `input[type=range]`.
  */
-const stripoutRange = () => (0, cssfn_1.composition)([
-    (0, cssfn_1.imports)([
-        (0, exports.stripoutControl)(),
+export const stripoutRange = () => composition([
+    imports([
+        stripoutControl(),
     ]),
-    (0, cssfn_1.layout)({
+    layout({
         // children:
-        ...(0, cssfn_1.children)([exports.rangeTrackElm, exports.rangeThumbElm], [
-            (0, cssfn_1.imports)([
-                (0, exports.stripoutControl)(),
+        ...children([rangeTrackElm, rangeThumbElm], [
+            imports([
+                stripoutControl(),
             ]),
         ], { groupSelectors: false }), // any invalid selector does not cause the whole selectors to fail
     }),
 ]);
-exports.stripoutRange = stripoutRange;
 /**
  * removes browser's default styling on list (`ul>li` & `ol>li`).
  */
-const stripoutList = () => (0, cssfn_1.composition)([
-    (0, cssfn_1.layout)({
+export const stripoutList = () => composition([
+    layout({
         listStyleType: none,
         marginBlockStart: unset,
         marginBlockEnd: unset,
@@ -111,20 +110,19 @@ const stripoutList = () => (0, cssfn_1.composition)([
         marginInlineEnd: unset,
         paddingInlineStart: unset,
         // children:
-        ...(0, cssfn_1.children)('*', [
-            (0, cssfn_1.layout)({
+        ...children('*', [
+            layout({
                 display: unset,
                 textAlign: unset,
             }),
         ]),
     }),
 ]);
-exports.stripoutList = stripoutList;
 /**
  * removes browser's default styling on figure.
  */
-const stripoutFigure = () => (0, cssfn_1.composition)([
-    (0, cssfn_1.layout)({
+export const stripoutFigure = () => composition([
+    layout({
         display: unset,
         marginBlockStart: unset,
         marginBlockEnd: unset,
@@ -132,48 +130,45 @@ const stripoutFigure = () => (0, cssfn_1.composition)([
         marginInlineEnd: unset,
     }),
 ]);
-exports.stripoutFigure = stripoutFigure;
 /**
  * removes browser's default styling on focusable element.
  */
-const stripoutFocusableElement = () => (0, cssfn_1.composition)([
-    (0, cssfn_1.variants)([
-        (0, cssfn_1.isFocus)([
-            (0, cssfn_1.layout)({
+export const stripoutFocusableElement = () => composition([
+    variants([
+        isFocus([
+            layout({
                 outline: unset,
                 outlineOffset: unset, // reset focus outline
             }),
         ]),
-        (0, cssfn_1.isFocusVisible)([
-            (0, cssfn_1.layout)({
+        isFocusVisible([
+            layout({
                 outline: unset,
                 outlineOffset: unset, // reset focus outline
             }),
         ]),
     ]),
 ]);
-exports.stripoutFocusableElement = stripoutFocusableElement;
 /**
  * hides browser's default scrollbar.
  */
-const stripoutScrollbar = () => (0, cssfn_1.composition)([
-    (0, cssfn_1.layout)({
+export const stripoutScrollbar = () => composition([
+    layout({
         scrollbarWidth: none,
         '-ms-overflow-style': none,
         // children:
-        ...(0, cssfn_1.children)('::-webkit-scrollbar', [
-            (0, cssfn_1.layout)({
+        ...children('::-webkit-scrollbar', [
+            layout({
                 display: none,
             }),
         ]),
     }),
 ]);
-exports.stripoutScrollbar = stripoutScrollbar;
 /**
  * removes browser's default styling on image.
  */
-const stripoutImage = () => (0, cssfn_1.composition)([
-    (0, cssfn_1.layout)({
+export const stripoutImage = () => composition([
+    layout({
         // layouts:
         display: 'block',
         // sizes:
@@ -186,4 +181,3 @@ const stripoutImage = () => (0, cssfn_1.composition)([
         },
     }),
 ]);
-exports.stripoutImage = stripoutImage;

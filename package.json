@@ -1,7 +1,8 @@
 {
   "name": "@nodestrap/stripouts",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "Removes browser's default stylesheet.",
+  "type": "module",
   "main": "dist/stripouts.js",
   "types": "dist/stripouts.d.ts",
   "scripts": {
@@ -27,6 +28,6 @@
   },
   "homepage": "https://github.com/nodestrap/stripouts#readme",
   "dependencies": {
-    "@cssfn/cssfn": "^1.0.2"
+    "@cssfn/cssfn": "^1.0.3"
   }
 }
