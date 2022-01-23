@@ -1,40 +1,36 @@
 import { 
-// compositions:
-composition, imports, 
-// layouts:
-layout, children, 
+// styles:
+style, imports, 
 // rules:
-variants, rule, isActive, isFocus, isFocusVisible, } from '@cssfn/cssfn'; // cssfn core
+rule, fallbacks, isActive, isFocus, isFocusVisible, 
+//combinators:
+children, } from '@cssfn/cssfn'; // cssfn core
 const unset = 'unset';
 const none = 'none';
 /**
  * removes browser's default styling on hyperlink (`a`).
  */
-export const stripoutLink = () => composition([
-    imports([
+export const stripoutLink = () => style({
+    ...imports([
         stripoutFocusableElement(),
     ]),
-    layout({
+    ...style({
         color: unset,
         textDecoration: unset,
-        cursor: unset, // reset hand pointer
+        cursor: unset,
+        ...isActive({
+            color: unset, // reset blue color
+        }),
     }),
-    variants([
-        isActive([
-            layout({
-                color: unset, // reset blue color
-            }),
-        ]),
-    ]),
-]);
+});
 /**
  * removes browser's default styling on control (`input`, `textarea`, `button`, etc).
  */
-export const stripoutControl = () => composition([
-    imports([
+export const stripoutControl = () => style({
+    ...imports([
         stripoutFocusableElement(),
     ]),
-    layout({
+    ...style({
         appearance: none,
         textRendering: unset,
         color: unset,
@@ -53,131 +49,107 @@ export const stripoutControl = () => composition([
         borderRadius: unset,
         boxSizing: unset,
     }),
-]);
+});
 /**
  * removes browser's default styling on `input[type=**text**]`.
  * `**text**` = `text`|`search`|`password`|`email`|`tel`|`url`|`number`|`time`|`week`|`date`|`datetime-local`|`month`
  */
-export const stripoutTextbox = () => composition([
-    imports([
+export const stripoutTextbox = () => style({
+    ...imports([
         stripoutControl(),
     ]),
-    layout({
+    ...style({
         '-moz-appearance': 'textfield',
+        ...rule([':valid', ':invalid'], {
+            boxShadow: unset,
+        }),
         // children:
-        ...children(['::-webkit-calendar-picker-indicator', '::-webkit-inner-spin-button', '::-webkit-search-cancel-button'], [
-            layout({
-                appearance: none,
-                display: none,
-            }),
-        ]),
+        ...children(['::-webkit-calendar-picker-indicator', '::-webkit-inner-spin-button', '::-webkit-search-cancel-button'], {
+            appearance: none,
+            display: none,
+        }),
     }),
-    variants([
-        rule([':valid', ':invalid'], [
-            layout({
-                boxShadow: unset,
-            }),
-        ]),
-    ]),
-]);
+});
 export const rangeTrackElm = ['::-webkit-slider-runnable-track', '::-moz-range-track', '::-ms-track'];
 export const rangeThumbElm = ['::-webkit-slider-thumb', '::-moz-range-thumb', '::-ms-thumb'];
 /**
  * removes browser's default styling on `input[type=range]`.
  */
-export const stripoutRange = () => composition([
-    imports([
+export const stripoutRange = () => style({
+    ...imports([
         stripoutControl(),
     ]),
-    layout({
+    ...style({
         // children:
-        ...children([rangeTrackElm, rangeThumbElm], [
-            imports([
+        ...children([rangeTrackElm, rangeThumbElm], {
+            ...imports([
                 stripoutControl(),
             ]),
-        ], { groupSelectors: false }), // any invalid selector does not cause the whole selectors to fail
+        }, { groupSelectors: false }), // any invalid selector does not cause the whole selectors to fail
     }),
-]);
+});
 /**
  * removes browser's default styling on list (`ul>li` & `ol>li`).
  */
-export const stripoutList = () => composition([
-    layout({
-        listStyleType: none,
-        marginBlockStart: unset,
-        marginBlockEnd: unset,
-        marginInlineStart: unset,
-        marginInlineEnd: unset,
-        paddingInlineStart: unset,
-        // children:
-        ...children('*', [
-            layout({
-                display: unset,
-                textAlign: unset,
-            }),
-        ]),
+export const stripoutList = () => style({
+    listStyleType: none,
+    marginBlockStart: unset,
+    marginBlockEnd: unset,
+    marginInlineStart: unset,
+    marginInlineEnd: unset,
+    paddingInlineStart: unset,
+    // children:
+    ...children('*', {
+        display: unset,
+        textAlign: unset,
     }),
-]);
+});
 /**
  * removes browser's default styling on figure.
  */
-export const stripoutFigure = () => composition([
-    layout({
-        display: unset,
-        marginBlockStart: unset,
-        marginBlockEnd: unset,
-        marginInlineStart: unset,
-        marginInlineEnd: unset,
-    }),
-]);
+export const stripoutFigure = () => style({
+    display: unset,
+    marginBlockStart: unset,
+    marginBlockEnd: unset,
+    marginInlineStart: unset,
+    marginInlineEnd: unset,
+});
 /**
  * removes browser's default styling on focusable element.
  */
-export const stripoutFocusableElement = () => composition([
-    variants([
-        isFocus([
-            layout({
-                outline: unset,
-                outlineOffset: unset, // reset focus outline
-            }),
-        ]),
-        isFocusVisible([
-            layout({
-                outline: unset,
-                outlineOffset: unset, // reset focus outline
-            }),
-        ]),
-    ]),
-]);
+export const stripoutFocusableElement = () => style({
+    ...isFocus({
+        outline: unset,
+        outlineOffset: unset, // reset focus outline
+    }),
+    ...isFocusVisible({
+        outline: unset,
+        outlineOffset: unset, // reset focus outline
+    }),
+});
 /**
  * hides browser's default scrollbar.
  */
-export const stripoutScrollbar = () => composition([
-    layout({
-        scrollbarWidth: none,
-        '-ms-overflow-style': none,
-        // children:
-        ...children('::-webkit-scrollbar', [
-            layout({
-                display: none,
-            }),
-        ]),
+export const stripoutScrollbar = () => style({
+    scrollbarWidth: none,
+    '-ms-overflow-style': none,
+    // children:
+    ...children('::-webkit-scrollbar', {
+        display: none,
     }),
-]);
+});
 /**
  * removes browser's default styling on image.
  */
-export const stripoutImage = () => composition([
-    layout({
-        // layouts:
-        display: 'block',
-        // sizes:
-        // fix the image's abnormal *display=block* sizing:
-        // span to maximum width:
-        boxSizing: 'border-box',
-        inlineSize: 'fill-available',
-        fallbacks: {
-            inlineSize: '100%',
-        },
+export const stripoutImage = () => style({
+    // layouts:
+    display: 'block',
+    // sizes:
+    // fix the image's abnormal *display=block* sizing:
+    // span to maximum width:
+    boxSizing: 'border-box',
+    inlineSize: 'fill-available',
+    ...fallbacks({
+        inlineSize: '100%',
     }),
-]);
+});
