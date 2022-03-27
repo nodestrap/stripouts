@@ -37,3 +37,7 @@ export declare const stripoutScrollbar: () => import("@cssfn/cssfn").Rule;
  * removes browser's default styling on image.
  */
 export declare const stripoutImage: () => import("@cssfn/cssfn").Rule;
+/**
+ * removes browser's default styling on dialog.
+ */
+export declare const stripoutDialog: () => import("@cssfn/cssfn").Rule;
